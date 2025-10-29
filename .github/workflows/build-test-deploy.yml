@@ -12,10 +12,11 @@ jobs:
           node-version: '18.x'
       - run: npm install
       - run: npm run build
-  test: 
+
+  test:
     needs: build
     runs-on: ubuntu-latest
-    steps: 
+    steps:
       - name: checkout repo
         uses: actions/checkout@v3
       - name: use node.js
@@ -23,4 +24,12 @@ jobs:
         with:
           node-version: '18.x'
       - run: npm install
+      - name: Create ESLint config for CI
+        run: |
+          cat > .eslintrc.json <<'EOF'
+          {
+            "extends": "next/core-web-vitals"
+          }
+          EOF
+
       - run: npm test
